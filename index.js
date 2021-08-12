@@ -8,6 +8,7 @@ require('dotenv').config()
 let VERCEL_TOKEN = ""
 let VERCEL_URL = ""
 let DESTDIR = ""
+let BASE = ""
 
 const fileTree = [];
 
@@ -18,6 +19,7 @@ function main() {
      VERCEL_TOKEN = process.env.VERCEL_TOKEN
 	 VERCEL_URL = process.argv[2]
      DESTDIR = process.argv[3] || VERCEL_URL
+     BASE = process.env.BASE_DIR || 'out/'
 
 	if (VERCEL_TOKEN === undefined || VERCEL_TOKEN === "") {
 		console.log(error("Please add your Vercel Token in .env file. \n\nLook at Readme for more informations"))
@@ -37,7 +39,7 @@ main()
 
 async function getSourceCode() {
    const spinner = ora('Loading file tree').start();
-   await getFileTree("src/")
+   await getFileTree(BASE)
    
    for (let i = 0; i < fileTree.length; i++) {
        const f = fileTree[i];
